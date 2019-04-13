@@ -1,5 +1,5 @@
 (ns hello-world)
 
-(defn hello [] ;; <- arglist goes here
+(defn hello []
   "Hello, World!"
 )
