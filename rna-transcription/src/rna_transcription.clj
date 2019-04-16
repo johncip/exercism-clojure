@@ -1,13 +1,13 @@
 (ns rna-transcription)
 
-(defn to-rna3 [dna]
+(defn other [base]
   (do
-    (assert (.contains [\G \C \T \A] dna))
-    (condp = dna
+    (assert (.contains [\G \C \T \A] base))
+    (condp = base
       \G \C
       \C \G
       \T \A
       \A \U)))
 
 (defn to-rna [dna]
-  (str (reduce str (map to-rna3 dna))))
+  (apply str (map other dna)))
