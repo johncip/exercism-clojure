@@ -1,7 +1,7 @@
 (ns isbn-verifier)
 
 (defn valid-format? [isbn]
-  (re-matches #"\d-?\d{3}-?\d{5}-?(\d|X)" isbn))
+  (boolean (re-matches #"\d-?\d{3}-?\d{5}-?(\d|X)" isbn)))
 
 (defn strip-hyphens [s]
   (clojure.string/replace s #"-" ""))
@@ -25,10 +25,9 @@
       (apply +)))
 
 (defn isbn? [isbn]
-  (if-not (valid-format? isbn)
-    false
-    (-> isbn
-        strip-hyphens
-        to-nums
-        weighted-sum
-        (multiple-of? 11))))
+  (and (valid-format? isbn)
+       (-> isbn
+           strip-hyphens
+           to-nums
+           weighted-sum
+           (multiple-of? 11))))
