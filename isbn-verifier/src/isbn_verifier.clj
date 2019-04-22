@@ -19,11 +19,10 @@
       (if (= final \X) 10 (char->int final)))))
 
 (defn weighted-sum [nums]
-  (reduce
-    (fn [sum pair]
-      (+ (apply * pair) sum))
-    0
-    (map vector nums (range 1 11))))
+  (->> nums
+      reverse
+      (map-indexed #(* (inc %1) %2))
+      (apply +)))
 
 (defn isbn? [isbn]
   (if-not (valid-format? isbn)
