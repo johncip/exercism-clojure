@@ -1,5 +1,7 @@
 (ns robot-name)
 
+;; note: this doesn't satisfy the "guaranteed to be unique" requirement.
+
 (defn random-char []
   (char (+ (rand 26) 65)))
 
