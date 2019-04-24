@@ -1,5 +1,6 @@
 (ns hamming)
 
+;; original
 (def different?
   (partial apply not=))
 
@@ -16,3 +17,12 @@
          (apply map list)
          (map (comp bool->int different?))
          (reduce +))))
+
+
+;; better -- use filter & count
+(defn distance [a b]
+  (when (count= a b)
+    (->> [a b]
+         (apply map not=)
+         (filter true?)
+         (count))))
