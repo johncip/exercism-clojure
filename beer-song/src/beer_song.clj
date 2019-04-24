@@ -7,7 +7,7 @@
   (if (= 1 num) "no more" (dec num)))
 
 (defn bottles [num suffix]
-  (str num " bottle" (if-one? num nil "s")  " of beer" suffix))
+  (str num " bottle" (if-one? num nil "s") " of beer" suffix))
 
 (defn standard-verse [num]
   (let [article (if-one? num "it" "one")
