@@ -19,10 +19,16 @@
          (reduce +))))
 
 
-;; better -- use filter & count
+;; better -- use when, filter & count
 (defn distance [a b]
   (when (count= a b)
     (->> [a b]
          (apply map not=)
          (filter true?)
          (count))))
+
+
+;; best -- ditch threading
+(defn distance [a b]
+  (when (count= a b)
+    (count (filter true? (map not= a b)))))
