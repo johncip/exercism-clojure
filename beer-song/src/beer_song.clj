@@ -1,32 +1,26 @@
 (ns beer-song)
 
-(defn if-one? [num if_ else_]
-  (if (= 1 num) if_ else_))
+(defn if-one? [num yes no]
+  (if (= 1 num) yes no))
 
 (defn next-bottle [num]
-  (cond
-    (= 1 num) "no more"
-    (= "No more" num) 99
-    :else (dec num)))
+  (if (= 1 num) "no more" (dec num)))
 
-(defn bottles-of-beer [num suffix]
+(defn bottles [num suffix]
   (str num " bottle" (if-one? num nil "s")  " of beer" suffix))
 
 (defn standard-verse [num]
   (let [article (if-one? num "it" "one")
         remaining (next-bottle num)]
     (str
-      (bottles-of-beer num " on the wall, ")
-      (bottles-of-beer num ".\n")
+      (bottles num " on the wall, ")
+      (bottles num ".\n")
       "Take " article " down and pass it around, "
-      (bottles-of-beer remaining " on the wall.\n"))))
+      (bottles remaining " on the wall.\n"))))
 
 (defn last-verse []
-  (str
-    (bottles-of-beer "No more" " on the wall, ")
-    (bottles-of-beer "no more" ".\n")
-    "Go to the store and buy some more, "
-    (bottles-of-beer 99 " on the wall.\n")))
+  (str "No more bottles of beer on the wall, no more bottles of beer.\n"
+       "Go to the store and buy some more, 99 bottles of beer on the wall.\n"))
 
 (defn verse [num]
   (if (zero? num)
@@ -34,9 +28,7 @@
     (standard-verse num)))
 
 (defn sing
-  ([start]
-   (sing start 0))
-  ([start end]
-   (->> (range start (dec end) -1)
-        (map verse)
-        (reduce #(str %1 "\n" %2)))))
+  ([start] (sing start 0))
+  ([start end] (->> (range start (dec end) -1)
+                    (map verse)
+                    (reduce #(str %1 "\n" %2)))))
