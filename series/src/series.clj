@@ -13,7 +13,7 @@
       (map window starts))))
 
 
-;; better (use parition)
+;; better (use partition)
 (defn slices [s len]
   (cond
     (zero? len) [""]
