@@ -7,5 +7,5 @@
   (condp divides? year
     400 true
     100 false
-    4 true
-    false))
+      4 true
+        false))
