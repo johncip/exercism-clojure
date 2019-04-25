@@ -1,10 +1,11 @@
-(ns beer-song)
+(ns beer-song
+  (:require [clojure.string :as str]))
 
 (defn if-one? [num yes no]
   (if (= 1 num) yes no))
 
 (defn next-bottle [num]
-  (if (= 1 num) "no more" (dec num)))
+  (if-one? num "no more" (dec num)))
 
 (defn bottles [num suffix]
   (str num " bottle" (if-one? num nil "s") " of beer" suffix))
@@ -31,4 +32,4 @@
   ([start] (sing start 0))
   ([start end] (->> (range start (dec end) -1)
                     (map verse)
-                    (reduce #(str %1 "\n" %2)))))
+                    (str/join "\n"))))
