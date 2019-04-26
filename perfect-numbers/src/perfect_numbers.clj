@@ -5,7 +5,7 @@
   (zero? (rem n d)))
 
 (defn aliquot-sum [n]
-  (->> (range 1 n)
+  (->> (range 1 (inc (quot n 2)))
        (filter (partial multiple? n))
        (reduce +)))
 
@@ -16,7 +16,12 @@
        0 :perfect
        1 :abundant)))
 
-;; better use of condp
+;; better (use condp with apply, don't go past n/2 + 1)
+(defn aliquot-sum [n]
+  (->> (range 1 (inc (quot n 2)))
+       (filter (partial multiple? n))
+       (reduce +)))
+
 (defn classify [n]
   (if (neg? n) (throw (IllegalArgumentException.))
     (condp apply [(aliquot-sum n) n]
