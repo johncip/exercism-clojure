@@ -24,7 +24,7 @@
 
 (defn classify [n]
   (when (neg? n) (throw (IllegalArgumentException.)))
-  (condp apply [(apply + (factors n)) n]
+  (condp apply [(reduce + (factors n)) n]
     < :deficient
     = :perfect
     > :abundant))
