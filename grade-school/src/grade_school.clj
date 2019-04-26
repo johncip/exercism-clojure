@@ -1,5 +1,6 @@
 (ns grade-school)
 
+;; original
 (defn grade [school gr]
   (school gr []))
 
@@ -13,3 +14,7 @@
     (fn [res k v] (assoc res k (sort v)))
     (sorted-map)
     school))
+
+;; alternative add (shorter but weird)
+(defn add [school name gr]
+  (update-in school [gr] #(conj (or % []) name)))
