@@ -17,4 +17,4 @@
 
 ;; alternative add (shorter but weird)
 (defn add [school name gr]
-  (update-in school [gr] #(conj (or % []) name)))
+  (update school gr #(conj (or % []) name)))
