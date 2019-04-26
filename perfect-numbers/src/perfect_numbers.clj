@@ -16,15 +16,15 @@
        0 :perfect
        1 :abundant)))
 
-;; better (use condp with apply, don't go past n/2 + 1)
-(defn aliquot-sum [n]
-  (->> (range 1 (inc (quot n 2)))
-       (filter (partial multiple? n))
-       (reduce +)))
+;; better (condp with apply, stop at n/2, inline sum, less threading)
+(defn factors [n]
+   (filter
+     (partial multiple? n)
+     (range 1 (inc (quot n 2)))))
 
 (defn classify [n]
   (if (neg? n) (throw (IllegalArgumentException.))
-    (condp apply [(aliquot-sum n) n]
+    (condp apply [(apply + (factors n)) n]
       < :deficient
       = :perfect
       > :abundant)))
