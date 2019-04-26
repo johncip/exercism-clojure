@@ -1,11 +1,12 @@
 (ns grade-school)
 
-(defn grade [school grade]
-  (get school grade []))
+(defn grade [school gr]
+  (school gr []))
 
 (defn add [school name gr]
-  (let [students (grade school gr)]
-    (assoc school gr (conj students name))))
+  (let [students (grade school gr)
+        updated (conj students name)]
+    (assoc school gr updated)))
 
 (defn sorted [school]
   (reduce-kv
