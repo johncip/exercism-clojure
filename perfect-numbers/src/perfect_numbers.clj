@@ -16,15 +16,15 @@
        0 :perfect
        1 :abundant)))
 
-;; better (condp with apply, stop at n/2, inline sum, less threading)
+;; better (condp with apply, stop at n/2, inline sum, less threading, use when)
 (defn factors [n]
    (filter
      (partial multiple? n)
      (range 1 (inc (quot n 2)))))
 
 (defn classify [n]
-  (if (neg? n) (throw (IllegalArgumentException.))
-    (condp apply [(apply + (factors n)) n]
-      < :deficient
-      = :perfect
-      > :abundant)))
+  (when (neg? n) (throw (IllegalArgumentException.)))
+  (condp apply [(apply + (factors n)) n]
+    < :deficient
+    = :perfect
+    > :abundant))
