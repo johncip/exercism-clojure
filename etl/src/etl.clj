@@ -5,4 +5,4 @@
   (map #(vector (str/lower-case %) score) words))
 
 (defn transform [source]
-  (reduce conj {} (mapcat split-entry source)))
+  (into {} (mapcat split-entry source)))
