@@ -4,10 +4,12 @@
   (quot (count coll) 2))
 
 (defn search-for [x coll]
-  (let [mid (middle coll)
-        mval (nth coll mid nil)]
-    (when (empty? coll) (throw (Exception. "not found")))
+  (when (empty? coll) (throw (Exception. "not found")))
+
+  (let [m (middle coll)
+        n (inc m)
+        mval (nth coll m nil)]
     (condp apply [x mval]
-      = mid
-      < (search-for x (subvec coll 0 mid))
-      > (+ 1 mid (search-for x (vec (drop (inc mid) coll)))))))
+      = m
+      < (->> coll (take m) (search-for x))
+      > (->> coll (drop n) (search-for x) (+ n)))))
