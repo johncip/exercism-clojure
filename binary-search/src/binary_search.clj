@@ -8,7 +8,7 @@
 
   (let [m (middle coll)
         n (inc m)
-        mval (nth coll m nil)]
+        mval (nth coll m)]
     (condp apply [x mval]
       = m
       < (->> coll (take m) (search-for x))
