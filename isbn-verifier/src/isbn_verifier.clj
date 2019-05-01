@@ -1,33 +1,27 @@
-(ns isbn-verifier)
+(ns isbn-verifier
+  (:require [clojure.string :as str]))
 
-(defn valid-format? [isbn]
+(defn valid? [isbn]
   (boolean (re-matches #"\d-?\d{3}-?\d{5}-?(\d|X)" isbn)))
-
-(defn strip-hyphens [s]
-  (clojure.string/replace s #"-" ""))
 
 (defn char->int [chr]
   (Character/digit chr 10))
 
-(defn multiple-of? [num base]
-  (zero? (mod num base)))
-
 (defn to-nums [digits]
   (let [final (last digits)]
-    (conj
-      (vec (map char->int (take 9 digits)))
-      (if (= final \X) 10 (char->int final)))))
+    (conj (mapv char->int (take 9 digits))
+          (if (= final \X) 10 (char->int final)))))
 
 (defn weighted-sum [nums]
-  (->> nums
-      reverse
-      (map-indexed #(* (inc %1) %2))
-      (apply +)))
+  (->> (reverse nums)
+       (map-indexed #(* (inc %1) %2))
+       (reduce +)))
 
 (defn isbn? [isbn]
-  (and (valid-format? isbn)
+  (and (valid? isbn)
        (-> isbn
-           strip-hyphens
+           (str/replace #"-" "")
            to-nums
            weighted-sum
-           (multiple-of? 11))))
+           (mod 11)
+           zero?)))
