@@ -11,4 +11,3 @@
     (fn [res k v] (assoc res k (sort v)))
     (sorted-map)
     school))
-
