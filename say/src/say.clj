@@ -1,7 +1,7 @@
 (ns say
   (:require [clojure.string :as str]))
 
-(defn join-present [delim coll]
+(defn join [delim coll]
   (str/join delim (take-while seq coll)))
 
 (defn split-thousands [num]
@@ -23,14 +23,14 @@
   (condp >= n
     9 (ones n)
     19 (teens n)
-    99 (join-present "-" [(tens (quot n 10)) (ones (mod n 10))])
-    999 (join-present " " [(say-small (quot n 100)) "hundred" (say-small (mod n 100))]))))
+    99 (join "-" [(tens (quot n 10)) (ones (mod n 10))])
+    999 (join " " [(say-small (quot n 100)) "hundred" (say-small (mod n 100))]))))
 
 (defn with-suffixes [groups]
   (let [suffixes ["" "thousand" "million" "billion"]]
     (->> groups
          reverse
-         (map-indexed #(join-present " " [%2 (suffixes %1)]))
+         (map-indexed #(join " " [%2 (suffixes %1)]))
          reverse)))
 
 (defn number [num]
@@ -40,4 +40,4 @@
          split-thousands
          (map say-small)
          with-suffixes
-         (join-present " "))))
+         (join " "))))
