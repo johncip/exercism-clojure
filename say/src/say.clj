@@ -1,24 +1,13 @@
 (ns say
   (:require [clojure.string :as str]))
 
-(declare split-thousands say-small with-suffixes join-present)
-
-
-(defn number [num]
-  (when-not (<= 0 num 999999999999) (throw (IllegalArgumentException.)))
-  (if (zero? num) "zero"
-    (->> num
-         split-thousands
-         (map say-small)
-         with-suffixes
-         (join-present " "))))
-
+(defn join-present [delim coll]
+  (str/join delim (take-while seq coll)))
 
 (defn split-thousands [num]
   (loop [n num, res ()]
     (if (zero? n) res
       (recur (quot n 1000) (conj res (mod n 1000))))))
-
 
 (defn say-small [n]
   (let [ones {0 ""     1 "one" 2 "two"   3 "three" 4 "four"
@@ -37,7 +26,6 @@
     99 (join-present "-" [(tens (quot n 10)) (ones (mod n 10))])
     999 (join-present " " [(say-small (quot n 100)) "hundred" (say-small (mod n 100))]))))
 
-
 (defn with-suffixes [groups]
   (let [suffixes ["" "thousand" "million" "billion"]]
     (->> groups
@@ -45,6 +33,11 @@
          (map-indexed #(join-present " " [%2 (suffixes %1)]))
          reverse)))
 
-
-(defn join-present [delim coll]
-  (str/join delim (take-while seq coll)))
+(defn number [num]
+  (when-not (<= 0 num 999999999999) (throw (IllegalArgumentException.)))
+  (if (zero? num) "zero"
+    (->> num
+         split-thousands
+         (map say-small)
+         with-suffixes
+         (join-present " "))))
