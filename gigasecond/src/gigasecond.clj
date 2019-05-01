@@ -15,8 +15,6 @@
 
 ;; better
 (defn from [y m d]
-  (-> (java.time.LocalDate/of y m d)
-      (.atStartOfDay) ;; -> LocalDateTime
+  (-> (java.time.LocalDateTime/of y m d 0 0 0 0)
       (.plusSeconds 1e9)
-      (.plusDays gsec-days)
       date->vec))
