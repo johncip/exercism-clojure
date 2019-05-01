@@ -1,13 +1,13 @@
 (ns grade-school)
 
 ;; original
-(defn grade [school gr]
-  (school gr []))
+(defn grade [school g]
+  (school g []))
 
-(defn add [school name gr]
-  (let [students (grade school gr)
+(defn add [school name g]
+  (let [students (grade school g)
         updated (conj students name)]
-    (assoc school gr updated)))
+    (assoc school g updated)))
 
 (defn sorted [school]
   (reduce-kv
@@ -16,5 +16,5 @@
     school))
 
 ;; alternative add (shorter but weird)
-(defn add [school name gr]
-  (update school gr #(conj (or % []) name)))
+(defn add [school name g]
+  (update school g #(conj (or % []) name)))
