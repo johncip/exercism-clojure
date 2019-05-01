@@ -1,12 +1,10 @@
 (ns space-age)
 
-(def periods
-  {"earth"   1         "mercury" 0.240846
-   "venus"   0.615197  "mars"    1.880815
-   "jupiter" 11.86261  "saturn"  29.44749
-   "uranus"  84.01684  "neptune" 164.7913})
+(def fname->period
+  {'on-earth   1         'on-mercury 0.240846
+   'on-venus   0.615197  'on-mars    1.880815
+   'on-jupiter 11.86261  'on-saturn  29.44749
+   'on-uranus  84.01684  'on-neptune 164.7913})
 
-(doseq [[planet period] (seq periods)]
-    (intern *ns*
-            (symbol (str "on-" planet))
-            #(/ % (* period 31557600))))
+(doseq [[fname period] (seq fname->period)]
+    (intern *ns* fname #(/ % (* period 31557600))))
