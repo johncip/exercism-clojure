@@ -6,9 +6,7 @@
    :jupiter 11.86261  :saturn  29.44749
    :uranus  84.01684  :neptune 164.7913})
 
-(periods :mercury)
-
 (doseq [[planet period] (seq periods)]
-  (intern *ns*
-          (symbol (str "on-" (name planet)))
-          (fn [sec] (/ sec (* period 31557600)))))
+  (let [fname (->> planet name (str "on-") symbol)]
+    (intern *ns* fname
+            #(/ % (* period 31557600)))))
