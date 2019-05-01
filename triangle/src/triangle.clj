@@ -7,5 +7,5 @@
         [s1 s2 s3] sorted]
     (case (count groups)
       1 :equilateral
-      2 (if (<= (* s1 2) s3) :illogical :isosceles)
+      2 (if (<= (+ s1 s2) s3) :illogical :isosceles)
       3 :scalene)))
