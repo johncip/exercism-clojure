@@ -1,12 +1,12 @@
 (ns space-age)
 
 (def periods
-  {:earth   1         :mercury 0.240846
-   :venus   0.615197  :mars    1.880815
-   :jupiter 11.86261  :saturn  29.44749
-   :uranus  84.01684  :neptune 164.7913})
+  {"earth"   1         "mercury" 0.240846
+   "venus"   0.615197  "mars"    1.880815
+   "jupiter" 11.86261  "saturn"  29.44749
+   "uranus"  84.01684  "neptune" 164.7913})
 
 (doseq [[planet period] (seq periods)]
     (intern *ns*
-            (->> planet name (str "on-") symbol)
+            (symbol (str "on-" planet))
             #(/ % (* period 31557600))))
