@@ -2,9 +2,9 @@
   (:require [clojure.string :as str]))
 
 (defn invert [split-fn multimap]
-  (into {} (mapcat
-             (fn [[k v]] (map vector (split-fn v) (repeat k)))
-             multimap)))
+  (letfn [(split-entry [[k v]]
+            (map vector (split-fn v) (repeat k)))]
+    (into {} (mapcat split-entry multimap))))
 
 (def letter-scores
   (invert
