@@ -22,5 +22,3 @@
 
 (defn score-word [word]
   (reduce + (map score-letter word)))
-
-(scrabble-score/score-word "OXYPHENBUTAZONE")
