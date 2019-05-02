@@ -9,13 +9,8 @@
 (def letter-scores
   (invert
     #(str/split % #"")
-    {1 "AEIOULNRST"
-     2 "DG"
-     3 "BCMP"
-     4 "FHVWY"
-     5 "K"
-     8 "JX"
-     10 "QZ"}))
+    {1 "AEIOULNRST" 2 "DG" 3 "BCMP"
+     4 "FHVWY" 5 "K" 8 "JX" 10 "QZ"}))
 
 (def score-letter
   (comp letter-scores str/upper-case))
