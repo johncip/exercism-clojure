@@ -1,5 +1,5 @@
 (ns flatten-array
-  (:require [clojure.walk :as walk]))
+  (:refer-clojure :exclude [flatten]))
 
 ;; original
 (defn flatten [arr]
@@ -15,7 +15,7 @@
 ;; :D
 (defn flatten [arr]
   (let [res (atom [])]
-    (walk/postwalk
+    (clojure.walk/postwalk
       #(when (number? %) (swap! res conj %))
       arr)
     @res))
