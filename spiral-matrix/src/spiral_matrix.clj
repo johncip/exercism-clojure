@@ -23,15 +23,15 @@
               :ys (range (- n d 2) d -1)
               :n n}))
 
-(defn make-strips [n d]
-  (mapcat #(% n d) [right down left top]))
+(defn ring [n depth]
+  (mapcat #(% n depth) [right down left top]))
 
 ;; roughly: list the "coordinates" in spiral order,
 ;; pair each with its position in the list,
 ;; then sort & return the re-ordered list positions
 (defn spiral [n]
   (as-> (range 0 n) t
-    (mapcat #(make-strips n %) t)
+    (mapcat #(ring n %) t)
     (map vector t (iterate inc 1))
     (into (sorted-map) t)
     (vals t)
