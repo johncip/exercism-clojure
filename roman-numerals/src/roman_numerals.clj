@@ -7,10 +7,9 @@
       10 "X"   9 "IX"   5 "V"   4 "IV"
        1 "I"   0 ""))
 
-(defn numerals [num]
-  (loop [res "" n num]
-    (let [as (keys arabic->roman)
-          a (first (filter (partial >= n) as))
-          r (arabic->roman a)]
-      (if (zero? n) res
-        (recur (str res r) (- n a))))))
+(defn numerals [n]
+  (let [as (keys arabic->roman)
+        a (first (filter (partial >= n) as))
+        r (arabic->roman a)]
+    (if (zero? n) ""
+      (str r (numerals (- n a))))))
