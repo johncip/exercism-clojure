@@ -1,31 +1,34 @@
 (ns spiral-matrix)
 
-(defn coords [{xs :xs ys :ys n :n}]
+(defn positions [{xs :xs ys :ys n :n}]
   (for [x xs y ys] (+ x (* y n))))
 
 (defn right [n d]
-  (coords {:xs (range d (- n d))
-           :ys (list d)
-           :n n}))
+  (positions {:xs (range d (- n d))
+              :ys (list d)
+              :n n}))
 
 (defn down [n d]
-  (coords {:xs (list (- (dec n) d))
-           :ys (range (inc d) (- n d))
-           :n n}))
+  (positions {:xs (list (- (dec n) d))
+              :ys (range (inc d) (- n d))
+              :n n}))
 
 (defn left [n d]
-  (coords {:xs (range (- n d 2) (dec d) -1)
-           :ys [(- (dec n) d)]
-           :n n}))
+  (positions {:xs (range (- n d 2) (dec d) -1)
+              :ys [(- (dec n) d)]
+              :n n}))
 
 (defn top [n d]
-  (coords {:xs (list d)
-           :ys (range (- n d 2) d -1)
-           :n n}))
+  (positions {:xs (list d)
+              :ys (range (- n d 2) d -1)
+              :n n}))
 
 (defn make-strips [n d]
   (mapcat #(% n d) [right down left top]))
 
+;; roughly: list the "coordinates" in spiral order,
+;; pair each with its position in the list,
+;; then sort & return the re-ordered list positions
 (defn spiral [n]
   (as-> (range 0 n) t
     (mapcat #(make-strips n %) t)
