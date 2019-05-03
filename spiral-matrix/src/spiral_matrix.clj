@@ -5,11 +5,11 @@
 
 (defn right [n d]
   (positions {:xs (range d (- n d))
-              :ys (list d)
+              :ys [d]
               :n n}))
 
 (defn down [n d]
-  (positions {:xs (list (- (dec n) d))
+  (positions {:xs [(- (dec n) d)]
               :ys (range (inc d) (- n d))
               :n n}))
 
@@ -19,7 +19,7 @@
               :n n}))
 
 (defn top [n d]
-  (positions {:xs (list d)
+  (positions {:xs [d]
               :ys (range (- n d 2) d -1)
               :n n}))
 
