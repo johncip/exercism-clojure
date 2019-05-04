@@ -7,10 +7,8 @@
     "zyxwvutsrqponmlkjihgfedcba0123456789"))
 
 (defn encode [s]
-  (->> s
-       str/lower-case
+  (->> (str/lower-case s)
        (keep substitute)
        (partition-all 5)
-       (interpose \space)
-       flatten
-       str/join))
+       (map str/join)
+       (str/join " ")))
