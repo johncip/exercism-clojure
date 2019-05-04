@@ -14,5 +14,3 @@
        (interpose \space)
        flatten
        str/join))
-
-(atbash-cipher/encode "Testing, 1 2 3, testing.")
