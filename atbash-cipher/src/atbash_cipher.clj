@@ -9,9 +9,10 @@
 (defn encode [s]
   (->> s
        str/lower-case
-       (filter #(Character/isLetterOrDigit %))
-       (map substitute)
-       (partition 5 5 nil)
+       (keep substitute)
+       (partition-all 5)
        (interpose \space)
        flatten
        str/join))
+
+(atbash-cipher/encode "Testing, 1 2 3, testing.")
