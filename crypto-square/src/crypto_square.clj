@@ -19,10 +19,10 @@
     (segments nrows
       (for [c (range 0 ncols)
             r (range 0 nrows)]
-        (-> grid (nth r) (nth c " "))))))
+        (-> grid (nth r) (nth c nil))))))
 
-(defn- columns [s]
-  (map str/trim (rotate (plaintext-segments s))))
+(def columns
+  (comp rotate plaintext-segments))
 
 (def ciphertext
   (comp str/join columns))
