@@ -22,8 +22,7 @@
         (-> grid (nth r) (nth c " "))))))
 
 (defn- columns [s]
-  (map (comp str/trim str/join)
-       (rotate (plaintext-segments s))))
+  (map str/trim (rotate (plaintext-segments s))))
 
 (def ciphertext
   (comp str/join columns))
