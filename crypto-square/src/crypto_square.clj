@@ -1,31 +1,29 @@
 (ns crypto-square
   (:require [clojure.string :as str]))
 
-(defn normalize-plaintext [s]
+(defn clean [s]
   (->> s str/lower-case (re-seq #"\w") str/join))
+(def normalize-plaintext clean)
 
 (defn square-size [s]
-  (-> s normalize-plaintext count Math/sqrt Math/ceil int))
+  (-> s clean count Math/sqrt Math/ceil int))
 
-(defn- segments [n coll]
-  (map str/join (partition-all n coll)))
+(defn segments [s]
+  (let [n (square-size s)]
+    (partition n n (repeat nil) s)))
 
-(defn plaintext-segments [s]
-  (segments (square-size s) (normalize-plaintext s)))
+(defn join-each [coll]
+  (map str/join coll))
 
-(defn- rotate [grid]
-  (let [ncols (count (first grid))
-        nrows (count grid)]
-    (segments nrows
-      (for [c (range 0 ncols)
-            r (range 0 nrows)]
-        (-> grid (nth r) (nth c nil))))))
+(def plaintext-segments
+  (comp join-each segments clean))
 
-(def columns
-  (comp rotate plaintext-segments))
+(def rotated
+  (let [rotate #(apply mapv vector %)]
+    (comp join-each rotate segments)))
 
-(def ciphertext
-  (comp str/join columns))
+(defn ciphertext [s & delim]
+  (str/join (first delim) (rotated (clean s))))
 
 (defn normalize-ciphertext [s]
-  (str/join " " (columns s)))
+  (ciphertext s " "))
