@@ -7,25 +7,26 @@
 (defn square-size [s]
   (-> s normalize-plaintext count Math/sqrt Math/ceil int))
 
-(defn strips [n coll]
+(defn- segments [n coll]
   (map str/join (partition-all n coll)))
 
 (defn plaintext-segments [s]
-  (strips (square-size s) (normalize-plaintext s)))
+  (segments (square-size s) (normalize-plaintext s)))
 
-(defn columns [s]
-  (let [segs (plaintext-segments s)
-        ncols (square-size s)
-        nrows (count segs)]
-    (strips nrows
+(defn- rotate [grid]
+  (let [ncols (count (first grid))
+        nrows (count grid)]
+    (segments nrows
       (for [c (range 0 ncols)
             r (range 0 nrows)]
-        (-> segs (nth r) (nth c " "))))))
+        (-> grid (nth r) (nth c " "))))))
 
-(defn ciphertext [s]
-  (-> s columns str/join (str/replace " " "")))
+(defn- columns [s]
+  (map (comp str/trim str/join)
+       (rotate (plaintext-segments s))))
+
+(def ciphertext
+  (comp str/join columns))
 
 (defn normalize-ciphertext [s]
-  (->> (columns s)
-       (map str/trim)
-       (str/join " ")))
+  (str/join " " (columns s)))
