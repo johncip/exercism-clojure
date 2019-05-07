@@ -18,3 +18,7 @@
 
 (defn row [n]
   (nth triangle (dec n)))
+
+;; "how did I miss that" edition
+(def triangle
+  (iterate next-row '(1)))
