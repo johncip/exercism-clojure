@@ -8,4 +8,5 @@
   (reset! ac nil))
 
 (defn update-balance [ac amt]
-  (swap! ac (partial + amt)))
+  {:pre [@ac]}
+  (swap! ac + amt))
