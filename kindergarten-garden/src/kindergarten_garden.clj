@@ -29,5 +29,4 @@
           collate
           (map plants)
           (partition 4)
-          (map-indexed #(vector (kids %1) %2))
-          (into {})))))
+          (zipmap kids)))))
