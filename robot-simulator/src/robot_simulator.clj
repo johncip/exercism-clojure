@@ -9,8 +9,7 @@
 
 (defn advance [bot]
   (let [{pos :coordinates, dir :bearing} bot]
-    (assoc bot :coordinates
-      (merge-with + pos (moves dir)))))
+    (assoc bot :coordinates (merge-with + pos (moves dir)))))
 
 (defn turn-right [dir]
   (second (drop-while #(not= dir %) (cycle (keys moves)))))
