@@ -13,8 +13,7 @@
       (merge-with + pos (moves dir)))))
 
 (defn turn-right [dir]
-  (let [dirs (cycle [:north :east :south :west])]
-    (first (next (drop-while #(not= dir %) dirs)))))
+  (second (drop-while #(not= dir %) (cycle (keys moves)))))
 
 (defn turn-left [dir]
   (nth (iterate turn-right dir) 3))
