@@ -14,7 +14,7 @@
                     :else     (- (* 2 d) 9)))
     ds))
 
-(defn valid-digits? [s]
+(defn valid-sum? [s]
   (->> s
        digits
        reverse
@@ -24,4 +24,4 @@
        zero?))
 
 (def valid?
-  (every-pred valid-format? valid-digits?))
+  (every-pred valid-format? valid-sum?))
