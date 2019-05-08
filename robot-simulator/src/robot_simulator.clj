@@ -4,21 +4,23 @@
   {:coordinates pos :bearing dir})
 
 (def moves
-  {:north {:x 0 :y  1} :east {:x  1 :y 0}
+  {:north {:x 0 :y 1} :east {:x 1 :y 0}
    :south {:x 0 :y -1} :west {:x -1 :y 0}})
 
-(defn advance [bot]
-  (let [{pos :coordinates, dir :bearing} bot]
-    (assoc bot :coordinates (merge-with + pos (moves dir)))))
-
-(defn turn-right [dir]
-  (second (drop-while #(not= dir %) (cycle (keys moves)))))
+(def turn-right
+  {:north :east, :east :south
+   :south :west, :west :north})
 
 (defn turn-left [dir]
   (nth (iterate turn-right dir) 3))
 
-(defn simulate [codes bot]
-  (let [ops {\A advance
-             \R #(update % :bearing turn-right)
-             \L #(update % :bearing turn-left)}]
-    (reduce #(%2 %1) bot (map ops codes))))
+(defn dispatch [bot cmd]
+  (let [{pos :coordinates, dir :bearing} bot
+        advance #(merge-with + % (moves dir))]
+    (case cmd
+      \A (update bot :coordinates advance)
+      \R (update bot :bearing turn-right)
+      \L (update bot :bearing turn-left))))
+
+(defn simulate [cmds bot]
+  (reduce dispatch bot cmds))
