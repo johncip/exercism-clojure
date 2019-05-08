@@ -8,7 +8,7 @@
         mark #(swap! nums assoc % nil)
         sqrt (Math/sqrt lim)]
     (loop [i 2]
-      (let [cur (nth @nums i nil)
+      (let [cur (@nums i)
             doomed (irange (* i i) lim i)
             i' (inc i)]
         (cond
