@@ -6,24 +6,17 @@
 
 (defn valid-format? [s]
   (and (re-matches #"[\d ]+" s)
-       (>= (count (digits s)) 2)))
-
-(defn double9 [n]
-  (if (= n 9) n (mod (* n 2) 9)))
-
-(defn double-every-other [ds]
-  (map-indexed
-    #(if (even? %1) %2 (double9 %2))
-    ds))
+       (> (count (digits s)) 1)))
 
 (defn valid-digits? [s]
-  (->> s
-       digits
-       reverse
-       double-every-other
-       (reduce +)
-       (#(mod % 10))
-       zero?))
+  (letfn [(dub9 [n] (- (* 2 n) (if (< n 5) 0 9)))]
+    (->> s
+         digits
+         reverse
+         (map-indexed #(if (even? %1) %2 (dub9 %2)))
+         (reduce +)
+         (#(mod % 10))
+         zero?)))
 
 (def valid?
   (every-pred valid-format? valid-digits?))
