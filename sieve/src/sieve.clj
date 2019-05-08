@@ -10,5 +10,4 @@
           (> i lim)  (drop 2 (filter some? @nums))
           (nil? cur) (recur (inc i))
           :else      (do (doall (map mark (range (* i 2) max i)))
-                         (recur (inc i)))
-          )))))
+                         (recur (inc i))))))))
