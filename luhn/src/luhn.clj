@@ -5,9 +5,8 @@
        (re-seq #"\d" s)))
 
 (defn valid-format? [s]
-  (boolean
-    (and (re-matches #"[\d ]+" s)
-         (>= (count (digits s)) 2))))
+  (and (re-matches #"[\d ]+" s)
+       (>= (count (digits s)) 2)))
 
 (defn double9 [n]
   (if (= n 9) n (mod (* n 2) 9)))
