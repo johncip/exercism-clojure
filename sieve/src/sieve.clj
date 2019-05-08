@@ -6,12 +6,13 @@
 (defn sieve [lim]
   (let [nums (atom (vec (irange 0 lim)))
         mark #(swap! nums assoc % nil)
-        root (int (Math/sqrt lim))]
+        sqrt (Math/sqrt lim)]
     (loop [i 2]
       (let [cur (nth @nums i nil)
+            doomed (irange (* i i) lim i)
             i' (inc i)]
         (cond
-          (> i root)  (drop 2 (filter some? @nums))
+          (> i sqrt)  (drop 2 (filter some? @nums))
           (nil? cur)  (recur i')
-          :else       (do (doall (map mark (irange (* i i) lim i)))
+          :else       (do (doall (map mark doomed))
                           (recur i')))))))
