@@ -14,19 +14,16 @@
 (def normalize
   (comp keyword str/lower-case))
 
-(defn collate [rows]
+(defn to-plots [rows]
   (->> (map #(partition 2 %) rows)
-       (apply map vector)
-       flatten))
+       (apply map concat)))
 
 (defn garden
-  ([s]
-   (garden s default-kids))
+  ([s] (garden s default-kids))
 
   ([s names]
    (let [kids (mapv normalize (sort names))]
      (->> (str/split s #"\n")
-          collate
-          (map plants)
-          (partition 4)
+          to-plots
+          (map #(map plants %))
           (zipmap kids)))))
