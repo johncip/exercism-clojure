@@ -15,8 +15,8 @@
   (nth (iterate turn-right dir) 3))
 
 (defn dispatch [bot cmd]
-  (let [{pos :coordinates, dir :bearing} bot
-        advance #(merge-with + % (moves dir))]
+  (let [unit (moves (:bearing bot))
+        advance #(merge-with + % unit)]
     (case cmd
       \A (update bot :coordinates advance)
       \R (update bot :bearing turn-right)
