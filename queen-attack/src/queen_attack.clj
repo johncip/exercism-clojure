@@ -6,7 +6,7 @@
 
 (defn board-string [mp]
   (if (empty? mp)
-    (apply str (repeat 8 "_ _ _ _ _ _ _ _\n"))
+    (str/join (repeat 8 "_ _ _ _ _ _ _ _\n"))
     (let [w (index (:w mp))
           b (index (:b mp))]
       (->> (range 0 64)
