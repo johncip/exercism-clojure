@@ -21,7 +21,6 @@
 (defn disp [a b]
   (Math/abs (- a b)))
 
-(defn can-attack [{[wy wx] :w [by bx] :b}]
-  (let [dx (disp wx bx)
-        dy (disp wy by)]
+(defn can-attack [{w :w b :b}]
+  (let [[dx dy] (map disp w b)]
     (or (zero? dx) (zero? dy) (= dx dy))))
