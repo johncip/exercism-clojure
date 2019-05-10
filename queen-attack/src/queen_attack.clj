@@ -4,9 +4,6 @@
 (defn index [[row col]]
   (+ (* 8 row) col))
 
-(defn format-row [chrs]
-  (conj (vec (interpose \space chrs)) \newline))
-
 (defn board-string [mp]
   (if (empty? mp)
     (apply str (repeat 8 "_ _ _ _ _ _ _ _\n"))
@@ -15,7 +12,7 @@
       (->> (range 0 64)
            (mapv #({w \W b \B} % \_))
            (partition 8)
-           (mapcat format-row)
+           (map #(str (str/join " " %) "\n"))
            str/join))))
 
 (defn disp [a b]
