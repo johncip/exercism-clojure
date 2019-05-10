@@ -15,9 +15,7 @@
            (map #(str (str/join " " %) "\n"))
            str/join))))
 
-(defn disp [a b]
-  (Math/abs (- a b)))
-
 (defn can-attack [{w :w b :b}]
-  (let [[dx dy] (map disp w b)]
+  (let [disp (comp #(Math/abs %) -)
+        [dx dy] (map disp w b)]
     (or (zero? dx) (zero? dy) (= dx dy))))
