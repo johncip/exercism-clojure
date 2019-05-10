@@ -16,7 +16,7 @@
            (mapv #({w \W b \B} % \_))
            (partition 8)
            (mapcat format-row)
-           (apply str)))))
+           str/join))))
 
 (defn disp [a b]
   (Math/abs (- a b)))
