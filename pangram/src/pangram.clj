@@ -1,9 +1,8 @@
 (ns pangram
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as s]))
 
 (defn normalize [s]
-  (-> s str/lower-case (str/replace #"[^a-z]" "")))
+  (-> s s/lower-case (s/replace #"[^a-z]" "")))
 
 (defn pangram? [s]
-  (= (seq "abcdefghijklmnopqrstuvwxyz")
-     (keys (frequencies (normalize s)))))
+  (= (count (frequencies (normalize s))) 26))
