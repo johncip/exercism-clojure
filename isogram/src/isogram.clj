@@ -1,5 +1,5 @@
 (ns isogram
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :refer [lower-case]]))
 
-(defn isogram? [word]
-  (apply distinct? (remove #{\space \-} (str/lower-case word))))
+(defn isogram? [s]
+  (apply distinct? (remove #{\space \-} (lower-case s))))
