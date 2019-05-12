@@ -5,6 +5,4 @@
   (->> word
        str/lower-case
        (remove #{\space \-})
-       frequencies
-       vals
-       (not-any? #(> % 1))))
+       (apply distinct?)))
