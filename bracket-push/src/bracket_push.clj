@@ -1,7 +1,7 @@
 (ns bracket-push)
 
-(def left? #{\( \[ \{})
-(def right-for {\{ \} \[ \] \( \)})
+(def right-for (zipmap "([{" ")]}"))
+(def left? (set (keys right-for)))
 
 (defn brackets [s]
   (filter #{ \( \) \[ \] \{ \} } s))
