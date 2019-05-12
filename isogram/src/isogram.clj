@@ -2,7 +2,4 @@
   (:require [clojure.string :as str]))
 
 (defn isogram? [word]
-  (->> word
-       str/lower-case
-       (remove #{\space \-})
-       (apply distinct?)))
+  (apply distinct? (remove #{\space \-} (str/lower-case word))))
