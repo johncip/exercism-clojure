@@ -6,11 +6,14 @@
 (defn square [n]
   (* n n))
 
-(defn square-of-sum [n]
-  (square (reduce + (nums n))))
+(def sum
+  (partial reduce +))
 
-(defn sum-of-squares [n]
-  (reduce + (map square (nums n))))
+(def square-of-sum
+  (comp square sum nums))
+
+(def sum-of-squares
+  (comp sum (partial map square) nums))
 
 (defn difference [n]
   (- (square-of-sum n) (sum-of-squares n)))
