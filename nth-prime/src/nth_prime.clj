@@ -16,9 +16,9 @@
                             (recur i'))))))))
 
 ;; the nth prime is ~ n ln n
-(defn upper-bound [n]
+(defn guess [n]
   (+ 2 (int (* 4/3 n (Math/log n)))))
 
 (defn nth-prime [n]
   (when-not (pos? n) (throw (IllegalArgumentException.)))
-  (nth (sieve (upper-bound n)) (dec n)))
+  (nth (sieve (guess n)) (dec n)))
