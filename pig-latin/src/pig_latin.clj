@@ -5,7 +5,7 @@
   [#"((?:[aeiou]|xr|yt).*)"
    #"([bcdfghjklmnpqrstvwxz]+)(y.*)"
    #"([bcdfghjklmnprstvwxyz]*qu)(.*)"
-   #"([bcdfghjklmnpqrstvwxyz]+)(.*)"])
+   #"([^aeiou]+)(.*)"])
 
 (defn parts [word]
   (->> (some #(re-matches % word) patterns)
@@ -19,3 +19,4 @@
   (->> (str/split phrase #"\s")
        (map say)
        (str/join " ")))
+
