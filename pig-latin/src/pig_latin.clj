@@ -2,9 +2,7 @@
   (:require [clojure.string :as str]))
 
 (def patterns
-  [#"(xr.*)"
-   #"(yt.*)"
-   #"([aeiou].*)"
+  [#"((?:[aeiou]|xr|yt).*)"
    #"([bcdfghjklmnpqrstvwxz]+)(y.*)"
    #"([bcdfghjklmnprstvwxyz]*qu)(.*)"
    #"([bcdfghjklmnpqrstvwxyz]+)(.*)"])
