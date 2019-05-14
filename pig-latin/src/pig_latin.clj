@@ -5,7 +5,7 @@
   [#"(xr.*)"
    #"(yt.*)"
    #"([aeiou].*)"
-   #"([bcdfghjklmnpqrstvwxz])(y)"
+   #"([bcdfghjklmnpqrstvwxz]+)(y.*)"
    #"([bcdfghjklmnprstvwxyz]*qu)(.*)"
    #"([bcdfghjklmnpqrstvwxyz]+)(.*)"])
 
@@ -17,7 +17,7 @@
 (defn say [word]
   (str/join (concat (reverse (parts word)) ["ay"])))
 
-(defn translate [words]
-  (->> (str/split words #"\s")
+(defn translate [phrase]
+  (->> (str/split phrase #"\s")
        (map say)
        (str/join " ")))
