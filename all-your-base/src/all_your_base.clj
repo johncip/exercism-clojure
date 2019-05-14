@@ -11,9 +11,9 @@
   (reduce #(+ (* %1 base) %2) digits))
 
 (defn to-digits [base n]
-  (if (< n base) [n]
-    (conj (to-digits base (quot n base))
-          (mod n base))))
+  (if (< n base)
+    [n]
+    (conj (to-digits base (quot n base)) (mod n base))))
 
 (defn convert [base1 digits base2]
   (if (valid-conversion? base1 digits base2)
