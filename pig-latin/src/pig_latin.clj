@@ -8,9 +8,7 @@
    #"([^aeiou]+)(.*)"])
 
 (defn parts [word]
-  (->> (some #(re-matches % word) patterns)
-       (remove nil?)
-       rest))
+  (rest (some #(re-matches % word) patterns)))
 
 (defn say [word]
   (str/join (concat (reverse (parts word)) ["ay"])))
