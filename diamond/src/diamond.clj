@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]))
 
 (defn letter [i]
-  (char (+ i (int \A))))
+  (char (+ (int \A) i)))
 
 (defn mirror [xs]
   (concat xs (rest (reverse xs))))
