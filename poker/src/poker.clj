@@ -16,7 +16,7 @@
        (partition 2)
        (sort-by (comp card-value first))))
 
-;; -- hand type tests --
+;; -- hand tests --
 
 (defn flush? [cs]
   (-> cs suits distinct count (= 1)))
@@ -27,18 +27,18 @@
     (or (contains? straights rnks)
         (contains? straights rotated)))) ;; try ace first
 
-(defn group-of-size? [n cs]
+(defn has-group-of? [n cs]
   (some #(= (count %) n) (grouped-ranks cs)))
 
 (def rules
   (into (sorted-map-by (comp - compare))
     {:9-straight-flush  (every-pred straight? flush?)
-     :8-four-of-a-kind  #(group-of-size? 4 %)
-     :7-full-house      (every-pred #(group-of-size? 3 %)
-                                    #(group-of-size? 2 %))
+     :8-four-of-a-kind  #(has-group-of? 4 %)
+     :7-full-house      (every-pred #(has-group-of? 3 %)
+                                    #(has-group-of? 2 %))
      :6-flush           flush?
      :5-straight        straight?
-     :4-three-of-a-kind #(group-of-size? 3 %)
+     :4-three-of-a-kind #(has-group-of? 3 %)
      :3-two-pair        #(= 3 (count (grouped-ranks %)))
      :2-one-pair        #(= 4 (count (grouped-ranks %)))
      :1-high-card       (constantly true)}))
@@ -53,15 +53,8 @@
     [:5-straight 3 2 1 0 -1]
     rep))
 
-;; starts with hand name, prefixed by "score" (higher is better).
-;; integer card values follow, sorted by group size (if any),
-;; then by value (decreasing).
-;;
-;; e.g. (:7-full-house 2 2 2 7 7)
-;; e.g. (:5-straight 5 4 3 2 1)
 (defn sortable-rep [cards]
-  (->> cards
-       normalize
+  (->> (normalize cards)
        grouped-ranks
        (sort-by count)
        flatten
@@ -73,9 +66,8 @@
 
 ;; -- entry point --
 
-(defn best-hands [strs]
-  (->> strs
-       (mapv (juxt sortable-rep identity))
+(defn best-hands [hands]
+  (->> (mapv (juxt sortable-rep identity) hands)
        (sort-by first)
        (partition-by first)
        last
