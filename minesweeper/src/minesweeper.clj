@@ -1,24 +1,21 @@
 (ns minesweeper
   (:require [clojure.string :refer [split join]]))
 
-(defn put [coll k v]
-  (if (contains? coll k)
-    (assoc coll k v)
-    coll))
+(defn safe-put [coll k v]
+  (if (contains? coll k) (assoc coll k v) coll))
 
-(defn get_ [g row col]
-  (nth (nth g row nil) col nil))
+(defn get-g [grid row col]
+  (nth (nth grid row nil) col nil))
 
-(defn put_ [g row col v]
-  (put g row (put (nth g row nil) col v)))
+(defn update-g [grid row col f]
+  (let [old (get-g grid row col)
+        new (f old)]
+    (safe-put grid row
+         (safe-put (nth grid row nil) col new))))
 
-(defn update_ [g row col f]
-  (let [v (get_ g row col)]
-    (put_ g row col (f v))))
-
-(defn coords [g]
-  (let [rs (range (count g))
-        cs (range (count (first g)))]
+(defn coords [r0 r1 c0 c1]
+  (let [rs (range r0 (inc r1))
+        cs (range c0 (inc c1))]
     (for [r rs c cs] (vector r c))))
 
 (defn inc-square [v]
@@ -27,26 +24,20 @@
         (number? v) (inc v)))
 
 (defn mark-around [board [row col]]
-  (let [v (get_ board row col)
-        mine? (= v \*)]
-    (if-not mine?
+  (let [v (get-g board row col)]
+    (if-not (= v \*)
       board
-      (-> board
-          (update_ (dec row) (dec col) inc-square)
-          (update_ (dec row) col inc-square)
-          (update_ (dec row) (inc col) inc-square)
-          (update_ row (dec col) inc-square)
-          (update_ row (inc col) inc-square)
-          (update_ (inc row) (dec col) inc-square)
-          (update_ (inc row) col inc-square)
-          (update_ (inc row) (inc col) inc-square)))))
+      (reduce
+        (fn [b [r c]] (update-g b r c inc-square))
+        board
+        (coords (dec row) (inc row) (dec col) (inc col))))))
 
 (defn normalize [board]
   (mapv #(apply vector %) (split board #"\n")))
 
 (defn draw [board]
-  (as-> board b
-    (normalize b)
-    (reduce mark-around b (coords b))
-    (map join b)
-    (join "\n" b)))
+  (let [b (normalize board)
+        coords (coords 0 (count b) 0 (count (first b)))]
+    (->> (reduce mark-around b coords)
+         (map join)
+         (join "\n"))))
