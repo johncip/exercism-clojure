@@ -30,8 +30,7 @@
   (into (sorted-map-by (comp - compare))
     {:9-straight-flush  (every-pred straight? flush?)
      :8-four-of-a-kind  #(has-group-of? 4 %)
-     :7-full-house      (every-pred #(has-group-of? 3 %)
-                                    #(has-group-of? 2 %))
+     :7-full-house      (every-pred #(has-group-of? 3 %) #(has-group-of? 2 %))
      :6-flush           flush?
      :5-straight        straight?
      :4-three-of-a-kind #(has-group-of? 3 %)
