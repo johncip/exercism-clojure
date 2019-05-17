@@ -1,11 +1,12 @@
 (ns poker)
 
-;; -- misc card & hand utils --
+;; -- utils --
 
 (def all-ranks (mapv str '(2 3 4 5 6 7 8 9 10 J Q K A)))
 (def card-value (zipmap all-ranks (range)))
 (def ranks (partial map first))
 (def suits (partial map second))
+(def straights (set (partition 5 1 (concat ["A"] all-ranks))))
 
 (def grouped-ranks
   (comp vals (partial group-by identity) ranks))
@@ -15,18 +16,16 @@
        (partition 2)
        (sort-by (comp card-value first))))
 
-;; -- tests for hand types --
+;; -- hand type tests --
 
 (defn flush? [cs]
   (-> cs suits distinct count (= 1)))
 
 (defn straight? [cs]
-  (let [straights (set (partition 5 1 (concat ["A"] all-ranks)))
-        rnks (ranks cs)
+  (let [rnks (ranks cs)
         rotated (conj (butlast rnks) (last rnks))]
-    (or
-      (contains? straights rnks)
-      (contains? straights rotated)))) ;; try ace first
+    (or (contains? straights rnks)
+        (contains? straights rotated)))) ;; try ace first
 
 (defn group-of-size? [n cs]
   (some #(= (count %) n) (grouped-ranks cs)))
@@ -54,10 +53,9 @@
     [:5-straight 3 2 1 0 -1]
     rep))
 
-;; a "sortable representation" for the cards, which starts with a hand
-;; name. the name is prefixed by a hand score (higher is better).
-;; integer card values follow, sorted by group size (if any)
-;; and then by value (decreasing).
+;; starts with hand name, prefixed by "score" (higher is better).
+;; integer card values follow, sorted by group size (if any),
+;; then by value (decreasing).
 ;;
 ;; e.g. (:7-full-house 2 2 2 7 7)
 ;; e.g. (:5-straight 5 4 3 2 1)
