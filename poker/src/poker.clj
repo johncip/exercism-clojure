@@ -1,9 +1,7 @@
 (ns poker)
 
-;; -- utils --
-
 (def all-ranks (mapv str '(2 3 4 5 6 7 8 9 10 J Q K A)))
-(def card-value (zipmap all-ranks (range)))
+(def card-value (zipmap all-ranks (iterate inc 2)))
 (def ranks (partial map first))
 (def suits (partial map second))
 (def straights (set (partition 5 1 (concat ["A"] all-ranks))))
@@ -15,8 +13,6 @@
   (->> (re-seq #"\d+|[JQKA]|[CDHS]" cards)
        (partition 2)
        (sort-by (comp card-value first))))
-
-;; -- hand tests --
 
 (defn flush? [cs]
   (-> cs suits distinct count (= 1)))
@@ -46,12 +42,9 @@
 (defn hand [cards]
   (ffirst (filter #((last %) (normalize cards)) rules)))
 
-;; -- sortable representation --
-
 (defn fix-ace-low-straight [rep]
-  (if (= rep [:5-straight 12 3 2 1 0])
-    [:5-straight 3 2 1 0 -1]
-    rep))
+  (if (= rep [:5-straight 14 5 4 3 2])
+    [:5-straight 5 4 3 2 1] rep))
 
 (defn sortable-rep [cards]
   (->> (normalize cards)
@@ -63,8 +56,6 @@
        (concat [(hand cards)])
        vec
        fix-ace-low-straight))
-
-;; -- entry point --
 
 (defn best-hands [hands]
   (->> (mapv (juxt sortable-rep identity) hands)
