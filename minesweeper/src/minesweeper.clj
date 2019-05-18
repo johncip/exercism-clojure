@@ -4,7 +4,7 @@
 (defn to-grid [board]
   (mapv #(apply vector %) (split board #"\n")))
 
-(defn positions [r0 rn c0 cn]
+(defn coords [r0 rn c0 cn]
   (let [rows (range r0 (inc rn))
         cols (range c0 (inc cn))]
     (for [r rows c cols] (list r c))))
@@ -20,18 +20,14 @@
 
 (defn mark-around [grid [r c]]
   (let [v (get-in grid [r c])
-        window (positions (dec r) (inc r) (dec c) (inc c))]
+        window (coords (dec r) (inc r) (dec c) (inc c))]
     (if (= v \*)
       (reduce inc-in grid window)
       grid)))
 
 (defn sweep [b]
-  (let [each-pos (positions 0 (count b) 0 (count (first b)))]
+  (let [each-pos (coords 0 (count b) 0 (count (first b)))]
     (reduce mark-around b each-pos)))
 
 (defn draw [board]
-  (->> board
-       to-grid
-       sweep
-       (map join)
-       (join "\n")))
+  (->> board to-grid sweep (map join) (join "\n")))
