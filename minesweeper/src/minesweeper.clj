@@ -1,8 +1,8 @@
 (ns minesweeper
-  (:require [clojure.string :refer [split join]]))
+  (:require [clojure.string :refer [split-lines join]]))
 
 (defn to-grid [board]
-  (mapv #(apply vector %) (split board #"\n")))
+  (mapv #(apply vector %) (split-lines board)))
 
 (defn coords [r0 rn c0 cn]
   (let [rows (range r0 (inc rn))
