@@ -18,10 +18,9 @@
     (update-in grid pos plus)
     grid))
 
-(defn mark-around [grid [r c]]
-  (let [v (get-in grid [r c])
-        window (coords (dec r) (inc r) (dec c) (inc c))]
-    (if (= v \*)
+(defn mark-around [grid [r c :as pos]]
+  (let [window (coords (dec r) (inc r) (dec c) (inc c))]
+    (if (= \* (get-in grid pos))
       (reduce inc-in grid window)
       grid)))
 
