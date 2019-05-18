@@ -1,7 +1,7 @@
 (ns minesweeper
   (:require [clojure.string :refer [split join]]))
 
-(defn safe-put [coll k v]
+(defn put-when [coll k v]
   (if (contains? coll k) (assoc coll k v) coll))
 
 (defn get-g [grid row col]
@@ -10,8 +10,8 @@
 (defn update-g [grid row col f]
   (let [old (get-g grid row col)
         new (f old)]
-    (safe-put grid row
-         (safe-put (nth grid row nil) col new))))
+    (put-when grid row
+         (put-when (nth grid row nil) col new))))
 
 (defn coords [r0 r1 c0 c1]
   (let [rs (range r0 (inc r1))
