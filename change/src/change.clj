@@ -17,9 +17,9 @@
                            (conj (helper (- amt c) coins) c)
                            (conj (helper (- amt c2) cs) c2)))))))
 
-(defn issue [amt coinset]
+(defn issue [amt coins]
   (let [err (IllegalArgumentException. "cannot change")]
     (cond
       (zero? amt) []
-      (< amt (apply min coinset)) (throw err)
-      :else (helper amt (sort > (vec coinset))))))
+      (< amt (apply min coins)) (throw err)
+      :else (helper amt (sort > coins)))))
