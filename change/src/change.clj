@@ -4,7 +4,7 @@
   (memoize
     (fn [amt coins]
       (let [[c & cs] coins
-            c2 (second coins)]
+            d (second coins)]
         (cond
           (zero? amt)    []
           (empty? coins) []
@@ -12,7 +12,7 @@
           (> c amt)      (helper amt cs)
           :else          (min-key count
                            (conj (helper (- amt c) coins) c)
-                           (conj (helper (- amt c2) cs) c2)))))))
+                           (conj (helper (- amt d) cs) d)))))))
 
 (defn issue [amt coins]
   (let [err (IllegalArgumentException. "cannot change")]
