@@ -1,8 +1,5 @@
 (ns change)
 
-(defn smaller [a b]
-  (if (< (count a) (count b)) a b))
-
 (def helper
   (memoize
     (fn [amt coins]
@@ -13,7 +10,7 @@
           (empty? coins) []
           (empty? cs)    (conj (helper (- amt c) coins) c)
           (> c amt)      (helper amt cs)
-          :else          (smaller
+          :else          (min-key count
                            (conj (helper (- amt c) coins) c)
                            (conj (helper (- amt c2) cs) c2)))))))
 
